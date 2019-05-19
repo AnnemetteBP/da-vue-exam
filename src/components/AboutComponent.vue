@@ -26,7 +26,7 @@
 
         <v-slide-y-transition>
           <v-card-text v-show="show">
-            This small frontend application has been made with Vue js and Vuetify. The application is a SPA for a rubber duck webshop. For this app, I have used the Vuetify UI component library to quickly integrate pre-styled components. The Vue components are rendered as html elements to the DOM by JSON. Vue Router handles the dynamic routing and change of Views in the app, without having to load a new session each time. Instead Vue Router saves the view data in one session and scripts dynamically updates the components.  <a href="https://github.com/AnnemetteBP/da-vue" target="_blank">Link to source code on GitHub</a>
+            This small frontend application has been made with Vue js and Vuetify. The application is a SPA for a rubber duck webshop. For this app, I have used the Vuetify UI component library to quickly integrate pre-styled components.  <a href="https://github.com/AnnemetteBP/da-vue" target="_blank">Link to source code on GitHub</a>
           </v-card-text>
         </v-slide-y-transition>
       </v-card>
