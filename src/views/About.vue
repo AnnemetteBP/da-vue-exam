@@ -14,7 +14,7 @@
       <AboutComponent v-show="active === 'Made with Vue'"></AboutComponent>
     </v-tab-item>
     <v-tab-item>
-      <BlogComponent v-show="active === 'Blog'"></BlogComponent>
+      <AllActions v-show="active === 'All actions'"></AllActions>
     </v-tab-item>
     <v-tab-item>
       <AboutTheProjectComponent v-show="active === 'About the project'"></AboutTheProjectComponent>
@@ -24,19 +24,19 @@
 
 <script>
   import AboutComponent from '../components/AboutComponent'
-  import BlogComponent from '../components/BlogComponent'
+  import AllActions from '../components/AllActions'
   import AboutTheProjectComponent from '../components/AboutTheProjectComponent'
 export default {
   name: 'About',
   components: {
     AboutComponent,
-    BlogComponent,
+    AllActions,
     AboutTheProjectComponent
   },
   data: () => ({
     tabs: [
       'Made with Vue',
-      'Blog',
+      'All actions',
       'About the project'
     ],
     active: 'Made with Vue'
@@ -44,8 +44,8 @@ export default {
   methods:{
     switchTab: function (tabName) {
       switch(tabName) {
-        case 'Blog' :
-          this.active = 'Blog';
+        case 'All actions' :
+          this.active = 'All actions';
           break;
         case 'About the project' :
           this.active = 'About the project';

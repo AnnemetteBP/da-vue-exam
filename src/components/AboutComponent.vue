@@ -1,134 +1,44 @@
 <template>
-    <div>
-      <v-container fluid>
-        <v-sparkline
-          :value="value"
-          :gradient="gradient"
-          :smooth="radius || false"
-          :padding="padding"
-          :line-width="width"
-          :stroke-linecap="lineCap"
-          :gradient-direction="gradientDirection"
-          auto-draw
-        ></v-sparkline>
+  <v-layout row>
+    <v-flex xs12 sm6 offset-sm3 my-4>
+      <v-card>
+        <v-img
+          src="https://miro.medium.com/fit/c/1838/551/1*dA0K8ZQ4yQn1Ld4JQBG4ug.png"
+          height="300px"
+        >
+        </v-img>
 
-        <v-divider></v-divider>
+        <v-card-title primary-title>
+          <div>
+            <div class="headline">SPA APP - Made with Vue.js & Vuetify</div>
+            <span class="grey--text">A small front-end application - DA course</span>
+          </div>
+        </v-card-title>
 
-        <v-layout wrap>
-          <v-flex
-            xs12
-            md6
-          >
-            <v-layout fill-height align-center>
-              <v-item-group v-model="gradient" mandatory>
-                <v-layout>
-                  <v-item v-for="(gradient, i) in gradients" :key="i" :value="gradient">
-                    <v-card
-                      slot-scope="{ active, toggle }"
-                      :style="{
-                    background: gradient.length > 1
-                      ? `linear-gradient(0deg, ${gradient})`
-                      : gradient[0],
-                    border: '2px solid',
-                    borderColor: active ? '#222' : 'white'
-                  }"
-                      width="30"
-                      height="30"
-                      class="mr-2"
-                      @click.native="toggle"
-                    ></v-card>
-                  </v-item>
-                </v-layout>
-              </v-item-group>
-            </v-layout>
-          </v-flex>
+        <v-card-actions>
+          <v-btn flat><a href="https://vuejs.org/" target="_blank">Learn more about Vue.js</a></v-btn>
+          <v-btn flat><a href="https://vuetifyjs.com/en/" target="_blank">Learn more about Vuetify</a></v-btn>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="show = !show">
+            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+          </v-btn>
+        </v-card-actions>
 
-          <v-flex
-            xs12
-            md6
-          >
-            <v-slider
-              v-model="width"
-              label="Width"
-              min="0.1"
-              max="10"
-              step="0.1"
-              thumb-label
-            ></v-slider>
-          </v-flex>
-
-          <v-flex xs6>
-            <v-layout fill-height align-center>
-              <v-subheader class="pl-0">Linecap</v-subheader>
-              <v-btn-toggle v-model="lineCap" mandatory>
-                <v-btn flat value="butt">butt</v-btn>
-                <v-btn flat value="round">round</v-btn>
-                <v-btn flat value="square">square</v-btn>
-              </v-btn-toggle>
-            </v-layout>
-
-            <v-layout fill-height align-center>
-              <v-subheader class="pl-0">Gradient direction</v-subheader>
-              <v-btn-toggle v-model="gradientDirection" mandatory>
-                <v-btn flat value="top">top</v-btn>
-                <v-btn flat value="right">right</v-btn>
-                <v-btn flat value="left">left</v-btn>
-                <v-btn flat value="bottom">bottom</v-btn>
-              </v-btn-toggle>
-            </v-layout>
-          </v-flex>
-
-          <v-flex
-            xs12
-            md6
-          >
-            <v-slider
-              v-model="radius"
-              label="Radius"
-              min="0"
-              max="25"
-              thumb-label
-            ></v-slider>
-          </v-flex>
-
-          <v-flex
-            xs12
-            md6
-            offset-md6
-          >
-            <v-slider
-              v-model="padding"
-              label="Padding"
-              min="0"
-              max="25"
-              thumb-label
-            ></v-slider>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </div>
+        <v-slide-y-transition>
+          <v-card-text v-show="show">
+            This small frontend application has been made with Vue js and Vuetify. The application is a SPA for a rubber duck webshop. For this app, I have used the Vuetify UI component library to quickly integrate pre-styled components. The Vue components are rendered as html elements to the DOM by JSON. Vue Router handles the dynamic routing and change of Views in the app, without having to load a new session each time. Instead Vue Router saves the view data in one session and scripts dynamically updates the components.  <a href="https://github.com/AnnemetteBP/da-vue" target="_blank">Link to source code on GitHub</a>
+          </v-card-text>
+        </v-slide-y-transition>
+      </v-card>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
-const gradients = [
-  ['#222'],
-  ['#42b3f4'],
-  ['red', 'orange', 'yellow'],
-  ['purple', 'violet'],
-  ['#00c6ff', '#F0F', '#FF0'],
-  ['#f72047', '#ffd200', '#1feaea']
-]
 export default {
   name: 'AboutComponent',
   data: () => ({
-    width: 2,
-    radius: 10,
-    padding: 8,
-    lineCap: 'round',
-    gradient: gradients[5],
-    value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
-    gradientDirection: 'top',
-    gradients
+    show: false
   })
 }
 </script>

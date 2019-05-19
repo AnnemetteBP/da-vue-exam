@@ -3,12 +3,12 @@
     <v-layout text-xs-center>
       <v-flex my-4>
         <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Rubba Duck Webshop
+          Welcome to Rubba Duck Webshop - 2.0
         </h1>
         <p class="subheading font-weight-regular">
-          A Vue project for my 2nd semester Device Applications assignment.
+          A small Vue application for my 2nd semester Device Applications Project.
           <br>Download full source code for this project from my repository on GitHub.
-          <a href="https://community.vuetifyjs.com" target="_blank">Link to source code on GitHub</a>
+          <a href="https://github.com/AnnemetteBP/da-vue" target="_blank">Link to source code on GitHub</a>
         </p>
       </v-flex>
     </v-layout>
