@@ -6,13 +6,19 @@
       >
         <img src="https://cdn11.bigcommerce.com/s-nf2x4/images/stencil/1280x1280/products/396/2626/donut__10766.1506615153.jpg?c=2&imbypass=on" alt="avatar">
       </v-avatar>
-      <v-toolbar-title class="headline text-uppercase" v-on:click="activeView = 'Home'">
-        <span>Rubba Duck</span>
-        <span class="font-weight-light"> Vueshop</span>
+      <v-toolbar-title class="headline text-uppercase">
+        <router-link to="/" class="v-btn" style="font-size: larger">
+        <span>Rubba Duck </span>
+        <span class="font-weight-light" style="color: deeppink"> Vueshop</span>
+        </router-link>
       </v-toolbar-title>
+      <!--
       <v-btn v-bind:flat=dark class="ml-5" v-on:click="activeView = 'Home'">Home</v-btn>
       <v-btn v-bind:flat=dark class="ml-4" v-on:click="activeView = 'Shop'">Shop</v-btn>
-      <v-btn v-bind:flat=dark class="ml-4" v-on:click="activeView = 'About'">About</v-btn>
+      <v-btn v-bind:flat=dark class="ml-4" v-on:click="activeView = 'About'">About</v-btn>-->
+      <router-link to="/" class="v-btn">Home</router-link>
+      <router-link to="/shop" class="v-btn">Shop</router-link>
+      <router-link v-bind:to="{name:'about'}" class="v-btn">About</router-link>
 
       <v-tooltip right>
         <template v-slot:activator="{ on }">
@@ -29,7 +35,12 @@
           v-bind:dark=dark
           color="white"
         >
-          <ShoppingCart v-bind:shopCartCounter="shopCartCount"></ShoppingCart>
+          <v-badge left>
+            <template v-slot:badge>
+              <span >{{cartCount}}</span>
+            </template>
+            <v-icon v-bind:large=true color="grey lighten-1">shopping_cart</v-icon>
+          </v-badge>
         </v-btn>
 
         <v-dialog
@@ -46,7 +57,7 @@
                     <template>
                       <v-data-table
                         :headers="headers"
-                        :items="shoppingCartList"
+                        :items="increment"
                         v-bind:hide-actions=true
                       >
                         <template v-slot:items="props">
@@ -90,7 +101,7 @@
                     Total cost
                   </v-flex>
                   <v-flex>
-                    $ {{totalCost}}
+                    $ {{cartTotalCost}}
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -108,6 +119,7 @@
                       flat="flat"
                       @click="dialog = false; activeView='Checkout';"
                       v-bind:block="true"
+                      :to="{name: 'check-out'}"
                     >
                       Continue to checkout
                     </v-btn>
@@ -129,70 +141,64 @@
         </v-dialog>
       </v-layout>
     </v-toolbar>
-
+    <!--
     <v-content>
-      <AlertComponent v-bind:alertMessage="alertMessage" v-bind:snackbar="snackbar"></AlertComponent>
       <Home v-if="activeView==='Home'" v-bind:shopCartCounter="shopCartCount" v-on:increment="increment($event)" v-bind:items="items"/>
       <Shop v-if="activeView==='Shop'" v-bind:shopCartCounter="shopCartCount" v-on:increment="increment($event)" v-on:decrement="decrement($event)" v-bind:items="items"/>
       <About v-if="activeView==='About'"/>
       <CheckoutComponent v-if="activeView==='Checkout'"></CheckoutComponent>
-    </v-content>
-
-<v-container
-  text-xs-center
-  fluid
->
-  <v-layout row>
-    <v-flex xs12>
-      <v-footer height="auto" width="auto">
-        <v-card
-          class="text-xs-center ma-0 footer-card"
-          flat
-        >
-          <v-card-text>
-            <v-btn
-              v-for="icon in icons"
-              :key="icon"
+    </v-content>-->
+    <AlertComponent v-bind:alertMessage="alertMessage" v-bind:snackbar="snackbar"></AlertComponent>
+    <div class="mt-5 pt-2">
+      <router-view v-on:increment="increment = $event"></router-view>
+    </div>
+    <v-container
+      text-xs-center
+      fluid
+    >
+      <v-layout row>
+        <v-flex xs12>
+          <v-footer height="auto" width="auto">
+            <v-card
+              class="text-xs-center ma-0 footer-card"
+              flat
             >
-              <v-icon size="24px">{{ icon }}</v-icon>
-            </v-btn>
-          </v-card-text>
+              <v-card-text>
+                <v-btn
+                  v-for="icon in icons"
+                  :key="icon"
+                >
+                  <v-icon size="24px">{{ icon }}</v-icon>
+                </v-btn>
+              </v-card-text>
 
-          <v-card-text class="pt-0">
-            A completely fake Webshop.
-          </v-card-text>
+              <v-card-text class="pt-0">
+                A completely fake Webshop.
+              </v-card-text>
 
-          <v-divider></v-divider>
+              <v-divider></v-divider>
 
-          <v-card-text>
-            &copy;2019 — <strong>Rubba Duck Vueshop</strong>
-          </v-card-text>
-        </v-card>
-      </v-footer>
-    </v-flex>
-  </v-layout>
-</v-container>
+              <v-card-text>
+                &copy;2019 — <router-link to="/" class="v-btn"><span>Rubba Duck Vueshop</span></router-link>
+              </v-card-text>
+            </v-card>
+          </v-footer>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </v-app>
 </template>
 
 <script>
-import Home from './views/Home'
-import About from './views/About'
-import Shop from './views/Shop'
 import ShoppingCart from './components/ShoppingCart'
 import AlertComponent from './components/AlertComponent'
-import CheckoutComponent from './components/CheckoutComponent'
 
 export default {
   name: 'App',
   components: {
-    Home,
-    About,
-    Shop,
     ShoppingCart,
-    AlertComponent,
-    CheckoutComponent
-  },//App State Next
+    AlertComponent
+  }, // App State Next
   data: () => ({
     icons: [
       'home',
@@ -211,33 +217,7 @@ export default {
     totalCost: 0,
     dark: true,
     dialog: false,
-    snackbar: false,
-    items: [
-      {
-        src: 'http://static1.squarespace.com/static/59698a7d29687fd47a2a7c52/5a4a93c2c83025f844a75e02/5995a965d482e90a1ff1dae2/1518711348277/500_duckinator.jpg',
-        name: 'Quack Duck',
-        description: 'A badass rubber duck from the Izznogood Collection',
-        prize: 5
-      },
-      {
-        src: 'https://www.badeendwinkel.nl/1650-large_default/rubber-duck-kiss-pink-ot.jpg',
-        name: 'Naughty Duck',
-        description: 'A romantic rubber duck from the Valentines Collection',
-        prize: 20
-      },
-      {
-        src: 'https://images-na.ssl-images-amazon.com/images/I/41mNq6dA7bL._SY355_.jpg',
-        name: 'Unicorn Duck',
-        description: 'Another rubber creature from the Fairytale Collection',
-        prize: 8
-      },
-      {
-        src: 'https://www.amsterdamduckstore.com/wp-content/uploads/2018/01/Yoga-rubber-duck-Amsterdam-Duck-Store.jpg',
-        name: 'Zen Duck',
-        description: 'A rubber duck from the tranquil Lotus Collection',
-        prize: 5
-      }
-    ]
+    snackbar: false
   }),
   methods: {
     darkTheme: function () {
@@ -246,45 +226,6 @@ export default {
         this.alertMessage = 'You have chosen the dark theme.';
       } else {
         this.alertMessage = 'You have chosen the light theme.';
-      }
-    },
-    increment: function(event){
-      if (event.count === 'undefined') {
-        this.shopCartCount++;
-        let found = false;
-        for (let i = 0; i < this.shoppingCartList.length; i++) {
-          if (this.shoppingCartList[i].name === event.name) {
-            this.shoppingCartList[i].count++;
-            this.shoppingCartList[i].prize = this.shoppingCartList[i].prize + event.prize;
-            found = true;
-          }
-        }
-        if (found === false) {
-          this.shoppingCartList.push({
-            name: event.name,
-            prize: event.prize,
-            count: 1
-          });
-        }
-        this.totalCost = this.totalCost + event.prize;
-      } else {
-        this.shopCartCount = this.shopCartCount + event.count;
-        let found = false;
-        for (let i = 0; i < this.shoppingCartList.length; i++) {
-          if (this.shoppingCartList[i].name === event.item.name) {
-            this.shoppingCartList[i].count = this.shoppingCartList[i].count + event.count;
-            this.shoppingCartList[i].prize = this.shoppingCartList[i].prize + event.item.prize * event.count;
-            found = true;
-          }
-        }
-        if (found === false) {
-          this.shoppingCartList.push({
-            name: event.item.name,
-            prize: event.item.prize * event.count,
-            count: event.count
-          });
-        }
-        this.totalCost = this.totalCost + event.item.prize * event.count;
       }
     },
     decrement: function (event) {
@@ -341,11 +282,65 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    increment: {
+      get: function(){
+        return this.shoppingCartList;
+      },
+      set: function(event){
+        if (event.count === 'undefined') {
+          this.shopCartCount++;
+          let found = false;
+          for (let i = 0; i < this.shoppingCartList.length; i++) {
+            if (this.shoppingCartList[i].name === event.item.name) {
+              this.shoppingCartList[i].count++;
+              this.shoppingCartList[i].prize = this.shoppingCartList[i].prize + event.item.prize;
+              found = true;
+            }
+          }
+          if (found === false) {
+            this.shoppingCartList.push({
+              name: event.item.name,
+              prize: event.item.prize,
+              count: event.count.count
+            });
+          }
+          this.totalCost = this.totalCost + event.item.prize;
+        } else {
+          this.shopCartCount = this.shopCartCount + event.count.count;
+          let found = false;
+          for (let i = 0; i < this.shoppingCartList.length; i++) {
+            if (this.shoppingCartList[i].name === event.item.name) {
+              this.shoppingCartList[i].count = this.shoppingCartList[i].count + event.count.count;
+              this.shoppingCartList[i].prize = this.shoppingCartList[i].prize + event.item.prize * event.count.count;
+              found = true;
+            }
+          }
+          if (found === false) {
+            this.shoppingCartList.push({
+              name: event.item.name,
+              prize: event.item.prize * event.count.count,
+              count: event.count.count
+            });
+          }
+          this.totalCost = this.totalCost + event.item.prize * event.count.count;
+        }
+      }
+    },
+    cartTotalCost: function(){
+      return this.totalCost;
+    },
+    cartCount: function(){
+      return this.shopCartCount;
+    }
   }
 }
 </script>
 <style>
 .footer-card{
+  bottom: 0;
   width: 100%;
+  height: auto;
 }
 </style>

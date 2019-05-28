@@ -3,9 +3,10 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 
-Vue.config.productionTip = false
+//Vue.config.productionTip = false
 
-new Vue({
+const app = new Vue({
+  el: '#app',
   router,
   render: h => h(App)
-}).$mount('#app')
+});

@@ -114,7 +114,7 @@ export default {
     },
     addToCart: function () {
       if (this.counter > 0) {
-        this.$emit('increment', this.counter);
+        this.$emit('increment', { product: this, count: this.counter});
       }
     }
   }
