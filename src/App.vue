@@ -190,13 +190,11 @@
 </template>
 
 <script>
-import ShoppingCart from './components/ShoppingCart'
 import AlertComponent from './components/AlertComponent'
 
 export default {
   name: 'App',
   components: {
-    ShoppingCart,
     AlertComponent
   }, // App State Next
   data: () => ({
@@ -226,19 +224,6 @@ export default {
         this.alertMessage = 'You have chosen the dark theme.';
       } else {
         this.alertMessage = 'You have chosen the light theme.';
-      }
-    },
-    decrement: function (event) {
-      if (this.shopCartCount > 0) {
-        this.shopCartCount--;
-        for (let i = 0; i < this.shoppingCartList.length; i++) {
-          if (this.shoppingCartList[i].name === event.name) {
-            this.shoppingCartList[i].count--;
-            this.shoppingCartList[i].prize = this.shoppingCartList[i].prize - event.prize;
-            this.totalCost = this.totalCost - event.prize / event.count;
-            break;
-          }
-        }
       }
     },
     decrementShoppingCart: function (event) {
